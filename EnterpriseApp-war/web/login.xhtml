@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <meta http-equiv="Content-Type" 
+              content="text/html; charset=UTF-8" 
+              HTTP-EQUIV="refresh" CONTENT="15" />
+        <h:outputStylesheet library="css" name="default.css" />
+    </h:head>
+
+    <h:body>
+        <h:form id="form">  
+            <h:outputLink id="loginLink" value="javascript:void(0)" onclick="dlg.show();">  
+                <p:graphicImage library="img" name="login.jpg" styleClass="imgCentered" />  
+            </h:outputLink>  
+
+            <p:growl id="growl" showDetail="true" life="3000" />  
+            <p:dialog id="dialog" header="Login" widgetVar="dlg" resizable="false">  
+
+                <h:panelGrid columns="2" cellpadding="5">  
+                    <h:outputLabel for="username" value="Username:" />  
+                    <p:inputText value="#{login.userName}"   
+                                 id="username" required="true" label="username" />  
+
+                    <h:outputLabel for="password" value="Password:" />  
+                    <h:inputSecret value="#{login.passWord}"   
+                                   id="password" required="true" label="password" />  
+
+                    <f:facet name="footer">  
+                        <p:commandButton id="loginButton" value="Login" update="growl"   
+                                         actionListener="#{login.login}"                           
+                                         oncomplete="handleLoginRequest(xhr, status, args)" />  
+                    </f:facet>  
+                </h:panelGrid>  
+            </p:dialog>  
+        </h:form>    
+        <h:outputScript library="js" name="login.js" />             
+    </h:body>
+</html>

@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta http-equiv="X-UA-Compatible" content="EmulateIE8" />
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>Welcome to the Admin Panel</title>
+            </f:facet>
+            <h:outputStylesheet library="css" name="default.css" />
+        </h:head>
+
+        <h:body>
+
+            <p:layout fullPage="true" >
+
+                <p:layoutUnit id="top" position="north" size="100" resizable="false" closable="false" collapsible="false">
+                    <h:graphicImage library="img" name="banner.jpg" styleClass="myBanner" />
+                </p:layoutUnit>
+
+                <!-- <p:layoutUnit id="bottom" position="south" size="60">                 
+                </p:layoutUnit> -->
+
+                <p:layoutUnit id="left" position="west" size="250" resizable="true" closable="false" collapsible="true" header="Options" minSize="200" style="text-align: center;">
+                    <p:spacer height="30px" />
+                    <h:form id="restMenuForm">
+                        <p:menu style="width: 95%" >
+                            <p:submenu label="REST Operations" id="menuTitle"> 
+                                <p:menuitem value="Show Student Table" oncomplete="studentTableDialog.show()" icon="ui-icon-person"/>
+                                <p:menuitem value="Get All Students" action="#{customer.navigateRestAll()}" ajax="false" icon="ui-icon-person"/>
+                                <p:menuitem value="Get Student by ID" action="#{customer.navigateRestId()}" ajax="false" icon="ui-icon-person"/>
+                                <p:menuitem value="Count All Students" action="#{customer.navigateRestCount()}" ajax="false" icon="ui-icon-person"/>
+                            </p:submenu>
+                        </p:menu>
+                    </h:form>
+                    <p:spacer height="30px" />
+                    <p:panel header="Calender" style="text-align: center;">
+                        <br />
+                        <p:calendar mode="inline" navigator="none" style="margin: 0px auto;"/>
+                        <br />
+                    </p:panel>
+                    <p:spacer height="30px" />
+                    <p:panel header="Server Time" style="text-align: center;">
+                        <br />
+                        <p:clock pattern="HH:mm:ss dd.MM.yyyy" mode="server"/>  
+                        <br />
+                    </p:panel>
+                    <p:commandLink type="submit" immediate="true"  action="#{login.logout}">
+                        <p:graphicImage library="img" name="logout.png" id="imgLogout" /> 
+                    </p:commandLink>
+
+                </p:layoutUnit>
+
+                <p:layoutUnit id="right" position="east" size="250" header="Gallery" resizable="true" closable="false" collapsible="true"
+                              style="text-align:center" minSize="200">
+
+                    <p:lightBox style="text-align:center;margin-top:20px;">
+                        <h:outputLink value="images/gallery/nature_1.jpg" style="margin-bottom:2px;">
+                            <h:graphicImage styleClass="smallImages" value="images/gallery/nature_1.jpg"/>
+                        </h:outputLink>
+
+                        <h:outputLink value="images/gallery/nature_2.jpg" style="margin-bottom:2px;">
+                            <h:graphicImage styleClass="smallImages" value="images/gallery/nature_2.jpg"/>
+                        </h:outputLink>
+
+                        <h:outputLink value="images/gallery/nature_3.jpg" style="margin-bottom:2px;">
+                            <h:graphicImage styleClass="smallImages" value="images/gallery/nature_3.jpg"/>
+                        </h:outputLink>
+
+                        <h:outputLink value="images/gallery/nature_4.jpg" style="margin-bottom:2px;">
+                            <h:graphicImage styleClass="smallImages" value="images/gallery/nature_4.jpg"/>
+                        </h:outputLink>
+                    </p:lightBox>
+                    <p:spacer height="30px" />
+                    <p:panel header="Completed Java Courses">
+                        <p:dataList value="#{customer.javaCourses}" var="course" itemType="disc" id="courseList">  
+                            #{course.courseName}
+                        </p:dataList> 
+                    </p:panel>
+
+                    <p:stack icon="images/icons/home.png" id="stackStyle">  
+                        <p:menuitem value="Home" icon="images/icons/home.png" url="#"/>  
+                        <p:menuitem value="Music" icon="images/icons/music.png" url="#"/>  
+                        <p:menuitem value="Video" icon="images/icons/video.png" url="#"/>  
+                        <p:menuitem value="Email" icon="images/icons/email.png" url="#"/>  
+                        <p:menuitem value="Portfolio" icon="images/icons/portfolio.png" url="#"/>   
+                    </p:stack>  
+                </p:layoutUnit>
+
+                <p:layoutUnit id="center" position="center">
+
+                    <h:form id="form">
+                        <p:dataTable id="dataTable" var="item" value="#{customer.lazyModel}" styleClass="userDataTableStyle"
+                                     paginator="true" rows="10" selection="#{customer.selectedCustomers}"
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     lazy="true" rowsPerPageTemplate="10,15,50">
+                            <f:facet name="header">
+                                Customer List via EJB Module
+                            </f:facet>  
+                            <p:column selectionMode="multiple" style="width:18px" />  
+                            <p:column  sortBy="#{item.customerId}">
+                                <f:facet name="header">
+                                    <h:outputText value="Customer ID" />
+                                </f:facet>
+                                <p:commandLink value="#{item.customerId}" update=":customerDetailsForm:display" oncomplete="customerDialog.show()"  title="View">
+                                    <f:setPropertyActionListener value="#{item}" target="#{customer.selectedCustomer}" />    
+                                </p:commandLink>
+                            </p:column>
+
+                            <p:column sortBy="#{item.name}">
+                                <f:facet name="header">
+                                    <h:outputText value="Name" />
+                                </f:facet>
+                                <h:outputText value="#{item.name}" />
+                            </p:column>
+
+                            <p:column sortBy="#{item.city}">
+                                <f:facet name="header">
+                                    <h:outputText value="City" />
+                                </f:facet>
+                                <h:outputText value="#{item.city}" />
+                            </p:column>
+
+                            <p:column sortBy="#{item.addressline1}">
+                                <f:facet name="header">
+                                    <h:outputText value="Address" />
+                                </f:facet>
+                                <h:outputText value="#{item.addressline1}" />
+                            </p:column>
+
+                            <p:column sortBy="#{item.phone}">
+                                <f:facet name="header">
+                                    <h:outputText value="Phone" />
+                                </f:facet>
+                                <h:outputText value="#{item.phone}" />
+                            </p:column>
+
+                            <p:column sortBy="#{item.email}">
+                                <f:facet name="header">
+                                    <h:outputText value="E-Mail" />
+                                </f:facet>
+                                <h:outputText value="#{item.email}" />
+                            </p:column>
+
+                            <f:facet name="footer">
+                                <p:commandButton value="New Customer" oncomplete="newCustomerDialog.show()" icon="ui-icon-star" title="Creates New Customer"/>
+                                <p:commandButton value="Delete Customers" actionListener="#{customer.deleteCustomers}" update="dataTable" icon="ui-icon-trash"/>
+                            </f:facet>
+                        </p:dataTable>
+                    </h:form>
+
+                    <p:dialog header="Customer Details" widgetVar="customerDialog" resizable="false" id="customerDlg"> 
+                        <h:form id="customerDetailsForm">
+                            <p:panelGrid id="display" columns="2">   
+                                <h:outputText value="Customer ID :" style="font-weight: bold;"></h:outputText>
+                                <h:outputText value="#{customer.selectedCustomer.customerId}" />
+
+                                <h:outputText value="Name :" style="font-weight: bold;"></h:outputText>
+                                <h:inputText value="#{customer.selectedCustomer.name}" required="true" requiredMessage="Please Enter Customer's Name!"/>
+
+                                <h:outputText value="City :" style="font-weight: bold;"></h:outputText>
+                                <h:inputText value="#{customer.selectedCustomer.city}" required="true" requiredMessage="Please Enter Customer's City!"/>
+
+                                <h:outputText value="Address :" style="font-weight: bold;"></h:outputText>
+                                <h:inputText value="#{customer.selectedCustomer.addressline1}" required="true" requiredMessage="Please Enter Customer's Address!"/>
+
+                                <h:outputText value="Phone :" style="font-weight: bold;"></h:outputText>
+                                <h:inputText value="#{customer.selectedCustomer.phone}" required="true" requiredMessage="Please Enter Customer's Phone Number!"/>
+
+                                <h:outputText value="E-Mail :" style="font-weight: bold;"></h:outputText>
+                                <h:inputText value="#{customer.selectedCustomer.email}" required="true" requiredMessage="Please Enter Customer's E-Mail Address!"/>
+
+                                <f:facet name="footer">
+                                    <p:commandButton value="Update" update=":form:dataTable, :growl"  oncomplete="handleSubmitRequest(xhr, status, args, 'customerDlg','newCustomerForm'); " actionListener="#{customer.updateCustomer}"/>
+
+                                </f:facet>
+                            </p:panelGrid> 
+                        </h:form>
+                    </p:dialog> 
+
+                    <p:dialog header="Student Details" widgetVar="studentDialog" resizable="false" id="studentDlg"> 
+                        <h:form id="studentDetailsForm">
+                            <p:panelGrid id="displayStudentDetails" columns="2">   
+                                <h:outputText value="Student ID :" style="font-weight: bold;"></h:outputText>
+                                <h:outputText value="#{student.selectedStudent.studentId}" />
+
+                                <h:outputText value="First Name :" style="font-weight: bold;"></h:outputText>
+                                <h:inputText value="#{student.selectedStudent.firstName}" required="true" requiredMessage="Please Enter Customer's Name!"/>
+
+                                <h:outputText value="Last Name :" style="font-weight: bold;"></h:outputText>
+                                <h:inputText value="#{student.selectedStudent.lastName}" required="true" requiredMessage="Please Enter Customer's City!"/>
+
+                                <h:outputText value="Student Group :" style="font-weight: bold;"></h:outputText>
+                                <h:inputText value="#{student.selectedStudent.studentGroup}" required="true" requiredMessage="Please Enter Customer's Address!"/>
+
+                                <h:outputText value="E-Mail :" style="font-weight: bold;"></h:outputText>
+                                <h:inputText value="#{student.selectedStudent.email}" required="true" requiredMessage="Please Enter Customer's E-Mail Address!"/>
+
+                                <f:facet name="footer">
+                                    <p:commandButton value="Update" update=":studentForm:studentTable, :growl"  oncomplete="handleSubmitRequest(xhr, status, args, 'studentDlg','newStudentForm'); " actionListener="#{student.updateStudent}"/>
+
+                                </f:facet>
+                            </p:panelGrid> 
+                        </h:form>
+                    </p:dialog> 
+
+                    <p:dialog header="Create New Customer" widgetVar="newCustomerDialog" resizable="false" id="newCustomerDlg"> 
+                        <h:form id="newCustomerForm">
+                            <p:panelGrid id="displayNewCustomer" columns="2">   
+                                <h:outputText value="Customer ID :" style="font-weight: bold;"></h:outputText>
+                                <h:inputText value="#{customer.newCustomer.customerId}" required="true" requiredMessage="Please Enter Customer's ID!"/>
+
+                                <h:outputText value="Name :" style="font-weight: bold;"></h:outputText>
+                                <h:inputText value="#{customer.newCustomer.name}" required="true" requiredMessage="Please Enter Customer's Name!"/>
+
+                                <h:outputText value="City :" style="font-weight: bold;"></h:outputText>
+                                <h:inputText value="#{customer.newCustomer.city}" required="true" requiredMessage="Please Enter Customer's City!"/>
+
+                                <h:outputText value="Address :" style="font-weight: bold;"></h:outputText>
+                                <h:inputText value="#{customer.newCustomer.addressline1}" required="true" requiredMessage="Please Enter Customer's Address!"/>
+
+                                <h:outputText value="Phone :" style="font-weight: bold;"></h:outputText>
+                                <h:inputText value="#{customer.newCustomer.phone}" required="true" requiredMessage="Please Enter Customer's Phone Number!"/>
+
+                                <h:outputText value="Student E-Mail :" style="font-weight: bold;"></h:outputText>
+                                <h:inputText value="#{customer.newCustomer.email}" required="true" requiredMessage="Please Enter Customer's E-Mail Address!"/>
+
+                                <f:facet name="footer">
+                                    <p:commandButton value="Submit" update=":form:dataTable, :growl"  oncomplete=" handleSubmitRequest(xhr, status, args, 'newCustomerDlg','newCustomerForm');" actionListener="#{customer.createCustomer}"/>
+                                    <p:commandButton value="Reset" update="newCustomerForm" process="@this" actionListener="#{customer.resetNewCustomerForm}" />                            
+                                </f:facet>
+                            </p:panelGrid>  
+                        </h:form>
+                    </p:dialog> 
+
+                    <p:dialog header="Create New Student" widgetVar="newStudentDialog" resizable="false" id="newStudentDlg"> 
+                        <h:form id="newStudentForm">
+                            <p:panelGrid id="displayNewStudent" columns="2">   
+                                <h:outputText value="Student ID :" style="font-weight: bold;"></h:outputText>
+                                <h:inputText value="#{student.newStudent.studentId}" required="true" requiredMessage="Please Enter Customer's ID!"/>
+
+                                <h:outputText value="First Name :" style="font-weight: bold;"></h:outputText>
+                                <h:inputText value="#{student.newStudent.firstName}" required="true" requiredMessage="Please Enter Customer's Name!"/>
+
+                                <h:outputText value="Last Name :" style="font-weight: bold;"></h:outputText>
+                                <h:inputText value="#{student.newStudent.lastName}" required="true" requiredMessage="Please Enter Customer's City!"/>
+
+                                <h:outputText value="Student Group :" style="font-weight: bold;"></h:outputText>
+                                <h:inputText value="#{student.newStudent.studentGroup}" required="true" requiredMessage="Please Enter Customer's Address!"/>
+
+                                <h:outputText value="Student E-Mail :" style="font-weight: bold;"></h:outputText>
+                                <h:inputText value="#{student.newStudent.email}" required="true" requiredMessage="Please Enter Customer's E-Mail Address!"/>
+
+                                <f:facet name="footer">
+                                    <p:commandButton value="Submit" update=":studentForm:studentTable, :growl"  oncomplete=" handleSubmitRequest(xhr, status, args, 'newStudentDlg','newStudentForm');" actionListener="#{student.createStudent}"/>
+                                    <p:commandButton value="Reset" update="newStudentForm" process="@this" actionListener="#{student.resetNewStudentForm}" />                            
+                                </f:facet>
+                            </p:panelGrid>  
+                        </h:form>
+                    </p:dialog> 
+
+                    <p:dialog header="Student List via REST Module" maximizable="true" minimizable="true" widgetVar="studentTableDialog" resizable="true" id="studentTableDlg"> 
+                        <h:form id="studentForm">
+                            <p:dataTable id="studentTable" styleClass="userDataTableStyle" value="#{student.lazyModel}" var="item" paginator="true" rows="10" selection="#{student.selectedStudents}"
+                                         lazy="true">
+                                <p:column selectionMode="multiple" style="width:18px" />  
+                                <p:column  sortBy="#{item.studentId}">
+                                    <f:facet name="header">
+                                        <h:outputText value="Student ID" />
+                                    </f:facet>
+                                    <p:commandLink value="#{item.studentId}" update=":studentDetailsForm:displayStudentDetails" oncomplete="studentDialog.show()"  title="View">
+                                        <f:setPropertyActionListener value="#{item}" target="#{student.selectedStudent}" />    
+                                    </p:commandLink>
+                                </p:column>
+
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="First Name"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.firstName}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Last Name"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.lastName}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="Student Group"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.studentGroup}"/>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="E-Mail"/>
+                                    </f:facet>
+                                    <h:outputText value="#{item.email}"/>
+                                </p:column>
+                                <f:facet name="footer">
+                                    <p:commandButton value="New Student" oncomplete="newStudentDialog.show()" icon="ui-icon-star" title="Creates New Student"/>
+                                    <p:commandButton value="Delete Students" actionListener="#{student.deleteStudents}" update="studentTable" icon="ui-icon-trash"/>
+                                </f:facet>
+                            </p:dataTable>
+                        </h:form>
+                    </p:dialog>
+
+                    <p:growl id="growl" showDetail="true" life="10000" />
+                    <h:outputScript library="js" name="dialog.js" />    
+
+                </p:layoutUnit>
+            </p:layout>
+        </h:body>
+    </f:view>
+</html>

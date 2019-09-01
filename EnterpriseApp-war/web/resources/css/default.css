@@ -1,0 +1,133 @@
+.ui-widget, .ui-widget .ui-widget {
+    font-size: 90% !important;
+ }
+ 
+.ui-datatable .ui-button{
+    float: left;
+ }
+ 
+.admin-dashboard-button{
+    width: 150px;
+    height: 150px;
+    margin: 10px;
+ }
+ 
+ .userDataTableStyle{
+    margin-left:  5px;
+    margin-right: 5px;
+    margin-top: 0;
+ }
+ 
+ .loginPanelStyle{
+    margin-left: auto;
+    margin-right: auto;
+    width: 300px;
+    margin-top: 15%;
+ }
+ 
+ .userFormStyle{
+    margin-left: auto;
+    margin-right: auto;
+    width: 300px;
+ }
+ 
+ .ui-selectmanymenu{
+    width: 100% !important; 
+    overflow: hidden !important;
+ }
+ 
+ .imgCentered {
+    display: block;
+    margin-left: auto; 
+    margin-right: auto;   
+    border-width: 0;
+}
+
+.ui-menu-icon-music {
+    background-image: url(img/music.png) !important;
+}
+.ui-menu-icon-video {
+    background-image: url(img/video.png) !important;
+}
+.ui-menu-icon-email {
+    background-image: url(img/email.png) !important;
+}
+.ui-menu-icon-portfolio {
+    background-image: url(img/portfolio.png) !important;
+}
+.ui-menu-icon-link {
+    background-image: url(img/link.png) !important;
+}
+.ui-menu-icon-rss {
+    background-image: url(img/rss.png) !important;
+}
+.ui-menu-icon-history {
+    background-image: url(img/history.png) !important;
+}
+
+.myBanner {
+    height: 70px !important;
+    width: 100% !important;   
+}
+
+#menuTitle {
+    margin: 0px auto !important;
+}
+
+#imgLogout {
+    height: 150px !important;
+    width: 150px !important;
+    margin-top: 40px !important;
+}
+
+.smallImages {
+    height: 50px !important;
+    width: 50px !important;  
+}
+
+#courseList {
+    text-align: left !important;
+    font-weight: bold !important;
+    margin-top: 20px !important;
+    margin-bottom: 20px !important;
+}
+
+#stackStyle {
+    text-align: center !important;
+    margin-bottom: 50px !important;
+}
+
+#studentDlg {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: auto !important;
+    margin-bottom: auto !important; 
+}
+
+#customerDlg {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: auto !important;
+    margin-bottom: auto !important; 
+}
+
+#newCustomerDlg {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: auto !important;
+    margin-bottom: auto !important; 
+}
+
+#newStudentDlg {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: auto !important;
+    margin-bottom: auto !important; 
+}
+
+#studentTableDlg {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    margin-top: auto !important;
+    margin-bottom: auto !important; 
+}
